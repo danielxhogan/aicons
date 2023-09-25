@@ -1,14 +1,19 @@
 import { Input, FormGroup } from "~/components/form";
 import { api } from "~/utils/api";
+import { LogButton } from "~/components/button";
 
 import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
     prompt: "",
   });
+
+  const session = useSession();
+  const isLoggedIn = !!session.data;
 
   function makeOnChangeFunction(key: string) {
     return function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -37,6 +42,28 @@ const GeneratePage: NextPage = () => {
       </Head>
 
       <main className="flex min-h-screen flex-col items-center justify-center">
+        {!isLoggedIn && (
+          <LogButton
+            onClick={() => {
+              signIn().catch(console.error);
+            }}
+          >
+            Login
+          </LogButton>
+        )}
+
+        {isLoggedIn && (
+          <LogButton
+            onClick={() => {
+              signOut().catch(console.error);
+            }}
+          >
+            Logout
+          </LogButton>
+        )}
+
+        {session.data?.user.name}
+
         <form onSubmit={onSubmitPrompt} className=" flex flex-col gap-5">
           <FormGroup>
             <label>Prompt</label>
