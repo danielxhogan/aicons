@@ -1,16 +1,20 @@
-import { Input, FormGroup } from "~/components/form";
-import { api } from "~/utils/api";
-import { LogButton } from "~/components/button";
-
 import { useState } from "react";
+
 import { type NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
+
+import { api } from "~/utils/api";
+
+import { Input, FormGroup } from "~/components/form";
+import { LogButton } from "~/components/button";
 
 const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
     prompt: "",
   });
+  const [imageUrl, setImageUrl] = useState("");
 
   const session = useSession();
   const isLoggedIn = !!session.data;
@@ -23,7 +27,10 @@ const GeneratePage: NextPage = () => {
 
   const generateIcon = api.generate.generateIcon.useMutation({
     onSuccess(data) {
-      console.log(`mutation finished, ${data.message}`);
+      console.log(`mutation finished, ${data.base64EncodedImage}`);
+      if (data.base64EncodedImage) {
+        setImageUrl(data.base64EncodedImage);
+      }
     },
   });
 
@@ -31,6 +38,8 @@ const GeneratePage: NextPage = () => {
     e.preventDefault();
 
     generateIcon.mutate({ prompt: form.prompt });
+
+    setForm({ prompt: "" });
   }
 
   return (
@@ -78,6 +87,13 @@ const GeneratePage: NextPage = () => {
             Submit
           </button>
         </form>
+
+        <img
+          src={`data:image/png;base64, ${imageUrl}`}
+          alt="generated icon"
+          height={150}
+          width={150}
+        />
       </main>
     </>
   );
