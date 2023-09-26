@@ -9,6 +9,7 @@ import { api } from "~/utils/api";
 
 import { Input, FormGroup } from "~/components/form";
 import { LogButton } from "~/components/button";
+import { useBuyCredits } from "~/hooks/useBuyCredits";
 
 const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
@@ -19,6 +20,8 @@ const GeneratePage: NextPage = () => {
   const session = useSession();
   const isLoggedIn = !!session.data;
 
+  const { buyCredits } = useBuyCredits();
+
   function makeOnChangeFunction(key: string) {
     return function (e: React.ChangeEvent<HTMLInputElement>) {
       setForm((prev) => ({ ...prev, [key]: e.target.value }));
@@ -27,9 +30,9 @@ const GeneratePage: NextPage = () => {
 
   const generateIcon = api.generate.generateIcon.useMutation({
     onSuccess(data) {
-      console.log(`mutation finished, ${data.base64EncodedImage}`);
-      if (data.base64EncodedImage) {
-        setImageUrl(data.base64EncodedImage);
+      console.log(`mutation finished, ${data.imageUrl}`);
+      if (data.imageUrl) {
+        setImageUrl(data.imageUrl);
       }
     },
   });
@@ -62,13 +65,17 @@ const GeneratePage: NextPage = () => {
         )}
 
         {isLoggedIn && (
-          <LogButton
-            onClick={() => {
-              signOut().catch(console.error);
-            }}
-          >
-            Logout
-          </LogButton>
+          <>
+            <button onClick={buyCredits}>Buy Credits</button>
+
+            <LogButton
+              onClick={() => {
+                signOut().catch(console.error);
+              }}
+            >
+              Logout
+            </LogButton>
+          </>
         )}
 
         {session.data?.user.name}
@@ -88,12 +95,7 @@ const GeneratePage: NextPage = () => {
           </button>
         </form>
 
-        <img
-          src={`data:image/png;base64, ${imageUrl}`}
-          alt="generated icon"
-          height={150}
-          width={150}
-        />
+        <Image src={imageUrl} alt="generated icon" height={150} width={150} />
       </main>
     </>
   );

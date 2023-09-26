@@ -21,7 +21,10 @@ const config = {
     defaultLocale: "en",
   },
   images: {
-    domains: ["oaidalleapiprodscus.blob.core.windows.net"],
+    domains: [
+      "oaidalleapiprodscus.blob.core.windows.net",
+      "aicons.s3.us-west-2.amazonaws.com",
+    ],
   },
 };
 export default config;

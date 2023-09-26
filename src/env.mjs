@@ -5,6 +5,8 @@ import { z } from "zod";
  * built with invalid env vars.
  */
 const server = z.object({
+  HOST_NAME: z.string(),
+
   DATABASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
   NEXTAUTH_SECRET:
@@ -21,10 +23,16 @@ const server = z.object({
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+
   DALLE_API_KEY: z.string(),
   MOCK_DALLE: z.string(),
+
   SECRET_ACCESS_KEY: z.string(),
   ACCESS_KEY_ID: z.string(),
+  PRICE_ID: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
+
+  PRIVATE_STRIPE_KEY: z.string(),
 });
 
 /**
@@ -32,6 +40,7 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
+  NEXT_PUBLIC_STRIPE_KEY: z.string(),
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
 });
 
@@ -42,6 +51,8 @@ const client = z.object({
  * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
  */
 const processEnv = {
+  HOST_NAME: process.env.HOST_NAME,
+
   DATABASE_URL: process.env.DATABASE_URL,
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -55,6 +66,11 @@ const processEnv = {
 
   SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
   ACCESS_KEY_ID: process.env.ACCESS_KEY_ID,
+
+  NEXT_PUBLIC_STRIPE_KEY: process.env.NEXT_PUBLIC_STRIPE_KEY,
+  PRIVATE_STRIPE_KEY: process.env.PRIVATE_STRIPE_KEY,
+  PRICE_ID: process.env.PRICE_ID,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

@@ -23,7 +23,6 @@ const s3 = new AWS.S3({
 
 async function generateIcon(prompt: string): Promise<string | undefined> {
   if (env.MOCK_DALLE === "true") {
-    // return "https://oaidalleapiprodscus.blob.core.windows.net/private/org-74YRKzYEllYy9ldklbTKMV1d/user-WMBV4utFkor4QevcbpGyYhdo/img-Sl2ELFRqTa9Td5yqxxTm1npC.png?st=2023-09-25T19%3A53%3A42Z&se=2023-09-25T21%3A53%3A42Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-25T20%3A39%3A38Z&ske=2023-09-26T20%3A39%3A38Z&sks=b&skv=2021-08-06&sig=H4MUJ35%2BAL3K4R3ymLxAm5Kgr2fSaN5pu2LZmJmHKz8%3D";
     return mockImage;
   } else {
     const response = await openai.images.generate({
@@ -32,10 +31,6 @@ async function generateIcon(prompt: string): Promise<string | undefined> {
       size: "512x512",
       response_format: "b64_json",
     });
-
-    console.log("****************************");
-    console.log(response.data[0]?.b64_json);
-    console.log("****************************");
 
     return response.data[0]?.b64_json;
   }
@@ -85,6 +80,8 @@ export const generateRouter = createTRPCRouter({
         })
         .promise();
 
-      return { base64EncodedImage };
+      return {
+        imageUrl: `https://aicons.s3.us-west-2.amazonaws.com/${icon.id}`,
+      };
     }),
 });
