@@ -8,7 +8,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 
 import { Input, FormGroup } from "~/components/form";
-import { LogButton } from "~/components/button";
 import { useBuyCredits } from "~/hooks/useBuyCredits";
 
 const GeneratePage: NextPage = () => {
@@ -54,27 +53,9 @@ const GeneratePage: NextPage = () => {
       </Head>
 
       <main className="flex min-h-screen flex-col items-center justify-center">
-        {!isLoggedIn && (
-          <LogButton
-            onClick={() => {
-              signIn().catch(console.error);
-            }}
-          >
-            Login
-          </LogButton>
-        )}
-
         {isLoggedIn && (
           <>
-            <button onClick={buyCredits}>Buy Credits</button>
-
-            <LogButton
-              onClick={() => {
-                signOut().catch(console.error);
-              }}
-            >
-              Logout
-            </LogButton>
+            <Button onClick={buyCredits}>Buy Credits</Button>
           </>
         )}
 
@@ -102,3 +83,14 @@ const GeneratePage: NextPage = () => {
 };
 
 export default GeneratePage;
+
+export function Button(props: React.ComponentPropsWithoutRef<"button">) {
+  return (
+    <button
+      {...props}
+      className="rounded border-2 border-black px-2 py-1 transition hover:bg-black hover:text-white"
+    >
+      {props.children}
+    </button>
+  );
+}

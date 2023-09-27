@@ -65,20 +65,3 @@ const webhook = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default webhook;
-
-// const endpointSecret =
-//   "whsec_56c0c7c2a954825cf76f45a45806a04ed46c51d02f39dd142b00cea83a305983";
-
-// app.post(
-//   "/webhook",
-//   express.raw({ type: "application/json" }),
-//   (request, response) => {
-//     // Handle the event
-//     console.log(`Unhandled event type ${event.type}`);
-
-//     // Return a 200 response to acknowledge receipt of the event
-//     response.send();
-//   }
-// );
-
-// app.listen(4242, () => console.log("Running on port 4242"));
