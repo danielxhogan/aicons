@@ -8,7 +8,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 
 import { Input, FormGroup } from "~/components/form";
-import { useBuyCredits } from "~/hooks/useBuyCredits";
+import useBuyCredits from "~/hooks/useBuyCredits";
 
 const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
@@ -19,7 +19,7 @@ const GeneratePage: NextPage = () => {
   const session = useSession();
   const isLoggedIn = !!session.data;
 
-  const { buyCredits } = useBuyCredits();
+  const buyCredits = useBuyCredits();
 
   function makeOnChangeFunction(key: string) {
     return function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -53,14 +53,6 @@ const GeneratePage: NextPage = () => {
       </Head>
 
       <main className="flex min-h-screen flex-col items-center justify-center">
-        {isLoggedIn && (
-          <>
-            <Button onClick={buyCredits}>Buy Credits</Button>
-          </>
-        )}
-
-        {session.data?.user.name}
-
         <form onSubmit={onSubmitPrompt} className=" flex flex-col gap-5">
           <FormGroup>
             <label>Prompt</label>

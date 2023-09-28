@@ -11,7 +11,7 @@ export function Input(props: React.ComponentPropsWithRef<"input">) {
     <input
       {...props}
       type="text"
-      className="rounded border border-black px-2 py-1"
+      className="rounded border border-black px-2 py-1 text-black"
     ></input>
   );
 }

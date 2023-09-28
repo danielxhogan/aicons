@@ -1,3 +1,5 @@
+import useBuyCredits from "~/hooks/useBuyCredits";
+
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link, { LinkProps } from "next/link";
 import { ReactNode } from "react";
@@ -6,8 +8,10 @@ export default function Header() {
   const session = useSession();
   const isLoggedIn = !!session.data;
 
+  const buyCredits = useBuyCredits();
+
   return (
-    <header className="h-20 bg-gray-800 px-2 text-cyan-200">
+    <header className="container mx-auto flex h-16 items-center justify-between px-2 ">
       <div className="container mx-auto flex h-full items-center justify-between">
         <HeaderLink href="/">aicons.bomb</HeaderLink>
 
@@ -39,6 +43,15 @@ export default function Header() {
                   Account
                 </HeaderLink>
               </li>
+              <li>
+                {isLoggedIn && (
+                  <>
+                    <HeaderButton onClick={buyCredits}>
+                      Buy Credits
+                    </HeaderButton>
+                  </>
+                )}
+              </li>
 
               <li>
                 <HeaderButton
@@ -59,17 +72,17 @@ export default function Header() {
 
 function HeaderLink(props: LinkProps & { children: ReactNode }) {
   return (
-    <Link {...props} className="hover:text-cyan-400">
+    <Link {...props} className={`text-cyan-200 hover:text-cyan-400`}>
       {props.children}
     </Link>
   );
 }
 
-function HeaderButton(props: React.ComponentPropsWithoutRef<"button">) {
+export function HeaderButton(props: React.ComponentPropsWithoutRef<"button">) {
   return (
     <button
       {...props}
-      className="rounded border-2 border-cyan-200 p-1 transition hover:bg-cyan-200 hover:text-gray-800"
+      className="rounded border-2 border-cyan-200 p-1 text-cyan-200 transition hover:bg-cyan-200 hover:text-gray-800"
     >
       {props.children}
     </button>
