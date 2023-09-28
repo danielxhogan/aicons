@@ -1,9 +1,5 @@
 export function FormGroup(props: React.ComponentPropsWithRef<"div">) {
-  return (
-    <div {...props} className=" flex flex-col gap-1">
-      {props.children}
-    </div>
-  );
+  return <div {...props}>{props.children}</div>;
 }
 
 export function Input(props: React.ComponentPropsWithRef<"input">) {
