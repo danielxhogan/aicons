@@ -46,7 +46,7 @@ export default function Header() {
               <li>
                 {isLoggedIn && (
                   <>
-                    <HeaderButton onClick={buyCredits}>
+                    <HeaderButton onClick={() => void buyCredits()}>
                       Buy Credits
                     </HeaderButton>
                   </>
