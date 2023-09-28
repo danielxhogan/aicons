@@ -1,8 +1,8 @@
 import useBuyCredits from "~/hooks/useBuyCredits";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import Link, { LinkProps } from "next/link";
-import { ReactNode } from "react";
+import Link, { type LinkProps } from "next/link";
+import { type ReactNode } from "react";
 
 export default function Header() {
   const session = useSession();

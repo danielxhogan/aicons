@@ -1,10 +1,6 @@
 import { env } from "~/env.mjs";
 
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 import Stripe from "stripe";
 const stripe = new Stripe(env.PRIVATE_STRIPE_KEY, {

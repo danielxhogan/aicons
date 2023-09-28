@@ -7,7 +7,6 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 
 import { Input, FormGroup } from "~/components/form";
-import useBuyCredits from "~/hooks/useBuyCredits";
 
 const GeneratePage: NextPage = () => {
   const [form, setForm] = useState({
